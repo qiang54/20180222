@@ -2,6 +2,7 @@ package com.store.web.servlet;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.ConvertUtils;
 
+import com.mysql.jdbc.PreparedStatement;
 import com.store.domain.Cart;
 import com.store.domain.CartItem;
 import com.store.domain.Order;
@@ -21,6 +23,7 @@ import com.store.mycoverter.MyConverter;
 import com.store.service.OrderService;
 import com.store.utils.BeanFactory;
 import com.store.utils.UUIDUtils;
+import com.sun.jmx.snmp.Timestamp;
 
 /**
  * 订单相关
@@ -48,7 +51,8 @@ public class OrderServlet extends BaseServlet {
 		order.setOid(UUIDUtils.getId());
 		//1.2订单时间
 		               //new  java.sql.Date(new Date().getTime())
-		order.setOrderTime(new  java.sql.Date(new Date().getTime()));
+		String sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+		order.setOrderTime(java.sql.Timestamp.valueOf(sdf));
 		//1.3订单总金额
 		Cart cart = (Cart) request.getSession().getAttribute("cart");
 		order.setTotalPrice(cart.getTotalPrice());
@@ -82,7 +86,10 @@ public class OrderServlet extends BaseServlet {
 		
 		//3.将order放入request域中，请求转发页面跳转
 		request.setAttribute("beanOrder", order);
-		return null;
+		
+		//4.清空购物车
+		request.getSession().removeAttribute("cart");
+		return "/jsp/order_info.jsp";
 	}
 	
 	/**
@@ -114,5 +121,26 @@ public class OrderServlet extends BaseServlet {
 		return "/jsp/order_list.jsp";
 		
 	}
+	
+	/**
+	 * 查看订单详情
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	public String getOrderById(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		String oid = request.getParameter("oid");
+		
+		OrderService os = (OrderService) BeanFactory.getBean("OrderService");
+		Order order = os.getOrderById(oid);
+		
+		request.setAttribute("beanOrder", order);
+		
+		return "/jsp/order_info.jsp";
+		
+	}
+		
 
 }
