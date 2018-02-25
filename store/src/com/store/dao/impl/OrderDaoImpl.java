@@ -87,7 +87,7 @@ public class OrderDaoImpl implements OrderDao {
 				OrderItem orderItem = new OrderItem();
 				BeanUtils.populate(orderItem, map);
 				
-				orderItem.setProduct(product);
+				orderItem.setProduct(product);//重要!!!!
 				
 				//将orderItem添加到对应的order对象中的items List中
 				order.getItems().add(orderItem);
@@ -99,7 +99,7 @@ public class OrderDaoImpl implements OrderDao {
 	}
 
 	/**
-	 * 获取总订单数
+	 * 获取订单总数
 	 */
 	@Override
 	public int getTotalCount(String uid) throws Exception {
@@ -110,6 +110,9 @@ public class OrderDaoImpl implements OrderDao {
 		return  ((Long)qr.query(sql, new ScalarHandler(), uid)).intValue();
 	}
 
+	/**
+	 * 查看订单详情
+	 */
 	@Override
 	public Order findOrderById(String oid) throws Exception {
 		// TODO Auto-generated method stub
@@ -128,6 +131,7 @@ public class OrderDaoImpl implements OrderDao {
 			//封装orderitem
 			OrderItem orderItem = new OrderItem();
 			BeanUtils.populate(orderItem, map);
+			orderItem.setProduct(product);
 			
 			//将orderitem 添加到order中
 			order.getItems().add(orderItem);
