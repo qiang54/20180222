@@ -42,38 +42,38 @@
 							<tbody>
 								<tr class="success">
 									<th colspan="5">订单编号：${o.oid } 订单金额：${o.totalPrice } 
-									 	<c:if test="${o.state == 0 }"> <a href="#">付款</a></c:if>
+									 	<c:if test="${o.state == 0 }"> <a href="${pageContext.request.contextPath }/order?method=getOrderById&oid=${o.oid}">付款</a></c:if>
 									 	<c:if test="${o.state == 1 }"> 已付款</c:if>
 									 	<c:if test="${o.state == 2 }"> <a href="#">确认收货 </a></c:if>
 									 	<c:if test="${o.state == 3 }"> 已完成</c:if>
 									</th>
 								</tr>
-									<tr class="warning">
-										<th>图片</th>
-										<th>商品</th>
-										<th>价格</th>
-										<th>数量</th>
-										<th>小计</th>
+								<tr class="warning">
+									<th>图片</th>
+									<th>商品</th>
+									<th>价格</th>
+									<th>数量</th>
+									<th>小计</th>
+								</tr>
+							  	<c:forEach items="${o.items }" var="oi"> 
+									<tr class="active">
+										<td width="60" width="40%">
+											<input type="hidden" name="id" value="22">
+											<img src="${pageContext.request.contextPath}/${oi.product.pimage}" width="70" height="60">
+										</td>
+										<td width="30%">
+											<a target="_blank">${oi.product.pname}</a>
+										</td>
+										<td width="20%">
+											￥${oi.product.shop_price}
+										</td>
+										<td width="10%">
+											${oi.count }
+										</td>
+										<td width="15%">
+											<span class="subtotal">￥${oi.subTotal}</span>
+										</td>
 									</tr>
-								  	<c:forEach items="${o.items }" var="oi"> 
-										<tr class="active">
-											<td width="60" width="40%">
-												<input type="hidden" name="id" value="22">
-												<img src="${pageContext.request.contextPath}/${oi.product.pimage}" width="70" height="60">
-											</td>
-											<td width="30%">
-												<a target="_blank">${oi.product.pname}</a>
-											</td>
-											<td width="20%">
-												￥${oi.product.shop_price}
-											</td>
-											<td width="10%">
-												${oi.count }
-											</td>
-											<td width="15%">
-												<span class="subtotal">￥${oi.subTotal}</span>
-											</td>
-										</tr>
 								</c:forEach>
 							</tbody>
 						</c:forEach>
@@ -96,10 +96,10 @@
 					<!-- 中间 -->
 					<c:forEach begin="1" end="${pb.totalPage }" var="n">
 						<c:if test="${n == pb.currPage  }">
-							<li class="active"><a href="javascript:void(0)">${n }</a></li>
+							<li class="disabled"><a href="javascript:void(0)">${n }</a></li>
 						</c:if>
 						<c:if test="${n != pb.currPage  }">
-							<li class="active"><a href="${pageContext.request.contextPath }/order?method=findAllByPage&currPage=${n}">${n }</a></li>
+							<li ><a href="${pageContext.request.contextPath }/order?method=findAllByPage&currPage=${n}">${n }</a></li>
 						</c:if>
 					</c:forEach>
 					
@@ -111,8 +111,8 @@
 							</a>
 						</li>
 					</c:if>
-					<c:if test="${ pb.currPage ==pb.totalPage }">
-						<li class="disabled">
+					<c:if test="${ pb.currPage !=pb.totalPage }">
+						<li >
 							<a href="${pageContext.request.contextPath }/order?method=findAllByPage&currPage=${pb.currPage + 1 }" aria-label="Next">
 								<span aria-hidden="true">&raquo;</span>
 							</a>
