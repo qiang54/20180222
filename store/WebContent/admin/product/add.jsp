@@ -66,7 +66,7 @@
 					<td class="ta_01" bgColor="#ffffff" colspan="3">
 						<select name="cid">
 							<c:forEach items="${clist }" var="c">
-								<option value="${c.cname }">${c.cname }</option>
+								<option value="${c.cid }">${c.cname }</option>
 							</c:forEach>
 						</select>
 					</td>
