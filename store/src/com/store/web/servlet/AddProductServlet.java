@@ -39,7 +39,6 @@ public class AddProductServlet extends HttpServlet {
 			
 			//创建map,接受前台数据
 			HashMap<String, Object> map = new HashMap<>();
-			
 			//创建磁盘文件项
 			DiskFileItemFactory factory = new DiskFileItemFactory();
 			//创建核心上传对象
