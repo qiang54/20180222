@@ -63,13 +63,13 @@
 												${c.cname }
 											</td>
 											<td align="center" style="HEIGHT: 22px">
-												<a href="${ pageContext.request.contextPath }/adminCategory">
+												<a ${ pageContext.request.contextPath }/adminCategory>
 													<img src="${pageContext.request.contextPath}/images/i_edit.gif" border="0" style="CURSOR: hand">
 												</a>
 											</td>
 									
 											<td align="center" style="HEIGHT: 22px">
-												<a href="${ pageContext.request.contextPath }/adminCategory">
+												<a href="javascript:void(0)" onclick="delCategory('${c.cid}')">
 													<img src="${pageContext.request.contextPath}/images/i_del.gif" width="16" height="16" border="0" style="CURSOR: hand">
 												</a>
 											</td>
@@ -81,5 +81,14 @@
 				</TBODY>
 			</table>
 	</body>
+	<script type="text/javascript">
+		function delCategory(cid){
+			if(confirm("你确定要删除该分类吗？")){
+				location.href = "${pageContext.request.contextPath}/adminCategory?method=delete&cid=" + cid;
+			}
+		}
+		
+	
+	</script>
 </HTML>
 

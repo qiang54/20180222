@@ -11,6 +11,7 @@ import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.MapListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
+import org.apache.taglibs.standard.tag.common.sql.DateParamTagSupport;
 
 import com.store.dao.OrderDao;
 import com.store.domain.Order;
@@ -137,6 +138,26 @@ public class OrderDaoImpl implements OrderDao {
 			order.getItems().add(orderItem);
 		}
 		return order;
+	}
+
+	/**
+	 * 更新订单
+	 */
+	@Override
+	public void updateOrder(Order order) throws Exception {
+		/**
+		 *
+		  `state` int(11) DEFAULT NULL,
+		  `address` varchar(30) DEFAULT NULL,
+		  `name` varchar(20) DEFAULT NULL,
+		  `telephone` varchar(20) DEFAULT NULL,
+		  `uid` varchar(32) DEFAULT NULL,
+		 */
+		
+		QueryRunner qr = new QueryRunner(DataSourceUtils.getDataSource());
+		String sql = "update orders set state = ?, address = ?, name = ?, telephone = ? where  oid = ?";
+		qr.update(sql,order.getState(), order.getAddress(), order.getName(), order.getTelephone(), 
+				order.getOid());
 	}
 
 	

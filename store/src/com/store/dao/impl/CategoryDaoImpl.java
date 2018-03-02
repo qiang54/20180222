@@ -1,13 +1,15 @@
 package com.store.dao.impl;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.apache.commons.dbutils.QueryRunner;
-import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 import com.store.dao.CategoryDao;
+import com.store.dao.ProductDao;
 import com.store.domain.Category;
+import com.store.utils.BeanFactory;
 import com.store.utils.DataSourceUtils;
 
 public class CategoryDaoImpl implements CategoryDao {
@@ -35,5 +37,18 @@ public class CategoryDaoImpl implements CategoryDao {
 		
 		qr.update(sql, c.getCid(), c.getCname());
 	}
+
+	/**
+	 * 删除分类
+	 */
+	@Override
+	public void delete(String cid) throws Exception {
+		
+		QueryRunner qr = new QueryRunner();
+		String sql = "delete from category where cid = ?";
+		qr.update(DataSourceUtils.getConnection(), sql, cid);
+	}
+
+	
 
 }

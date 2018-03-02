@@ -1,13 +1,13 @@
 package com.store.web.servlet;
 
-import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.store.domain.Category;
 import com.store.domain.Product;
+import com.store.service.CategoryService;
 import com.store.service.ProductService;
 import com.store.utils.BeanFactory;
 
@@ -26,4 +26,13 @@ public class AdminProductServlet extends BaseServlet {
 
 	}
 
+	public String addUI(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		CategoryService cs = (CategoryService) BeanFactory.getBean("CategoryService");
+		List<Category> list = cs.findAll();
+		
+		request.setAttribute("clist", list);
+		
+		return "/admin/product/add.jsp";
+	}
 }
